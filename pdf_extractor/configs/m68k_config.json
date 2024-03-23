@@ -1,0 +1,16 @@
+{
+	"tasks": [
+		{
+			"type": "m68k",
+			"pdfpath": "pdf\\m68k\\_ProgManual_68000_1.pdf",
+			"outpath": "m68k\\main\\",
+			"docname": "m68k\\main"
+		},
+		{
+			"type": "m68k",
+			"pdfpath": "pdf\\m68k\\_ProgManual_68000_2.pdf",
+			"outpath": "m68k\\main\\",
+			"docname": "m68k\\main"
+		}
+	]
+}

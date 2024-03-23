@@ -1,0 +1,22 @@
+{
+	"tasks": [
+		{
+			"type": "nanomips_isa",
+			"pdfpath": "pdf\\mips\\nanomips\\_MIPS_nanomips32_ISA_TRM_01_01_MD01247.pdf",
+			"outpath": "nanomips\\main\\",
+			"docname": "nanomips\\main"
+		},
+		{
+			"type": "nanomips",
+			"pdfpath": "pdf\\mips\\nanomips\\_MIPS_nanoMIPS32_MT_TRM_01_17_MD01255.pdf",
+			"outpath": "nanomips\\ase_mt\\",
+			"docname": "nanomips\\ASE-MT"
+		},
+		{
+			"type": "nanomips",
+			"pdfpath": "pdf\\mips\\nanomips\\_MIPS_nanoMIPS32_DSP_00_04_MD01249.pdf",
+			"outpath": "nanomips\\ase_dsp\\",
+			"docname": "nanomips\\ASE-DSP"
+		}
+	]
+}

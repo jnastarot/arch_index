@@ -1,0 +1,182 @@
+start: (_NEWLINE | statement)*
+ 
+ident_up: _NEWLINE _INDENT _NEWLINE*
+ident_down: _DEDENT _NEWLINE*
+
+
+?statement: (simple_statement | complex_statement)
+?statement_block: ident_up statement+ ident_down
+
+complex_statement: if_statement 
+    | case_statement 
+    | for_statement 
+    | while_do_statement
+
+simple_statement: (small_statement [";"])+ [_NEWLINE]
+
+?small_statement: inline_if_statement
+                | variable_class_member_call
+                | variable_proto
+                | variable_miltiple_proto
+                | variable_array_proto
+                | assigment_statement
+                | function_statement
+                | builtin_statement
+                | see_statement
+                | assert_statement
+
+
+// complex statements
+!if_statement: IF rvalue THEN (statement_block | statement) [ELSIF rvalue THEN (statement_block | statement)]* ["else" (statement_block | statement)]
+!for_statement: FOR assigment_statement [TO | DOWNTO] rvalue (statement_block)
+!when_statement: WHEN rvalue (statement | statement_block | _NEWLINE)*
+!otherwise_statement: OTHERWISE (statement | statement_block)*
+!case_statement: CASE rvalue OF ident_up when_statement+ otherwise_statement? ident_down
+!while_do_statement: WHILE rvalue DO statement_block
+!see_statement: SEE (function_parameters | STRING )
+!assert_statement: ASSERT rvalue
+
+// special statements
+!assigment_statement: rvalue "=" rvalue // integer n = x | integer m = integer UNKNOWN;
+!inline_if_statement: IF rvalue THEN rvalue [";"] [ELSE rvalue ]// if Q == '1' then 128 else 64; 
+!function_statement:  NAME function_parameters // function(arg1, arg2)
+function_parameters: "(" (rvalue ("," rvalue)*)? ")" // (arg1, arg2)
+
+?rvalue: bits_extract
+        | expression
+        | number
+        | builtin_statement
+        | see_statement
+        | variable_class_member_call
+        | function_statement
+        | bits_string
+        | inline_if_statement
+        | assigment_statement
+        | variable
+
+!bits_extract: rvalue offset_data
+!slice_variable: rvalue slice_data
+!slice_sized_variable: rvalue slice_sized_data
+
+//variable
+?variable: variable_tuple 
+        | variable_proto 
+        | variable_class_member 
+        | slice_variable
+        | slice_sized_variable
+        | concat_variable
+
+!variable_class_member_call: variable_class_member function_parameters //a.b(x, y, z)
+!variable_class_member: (buildin_types | variable_name | variable) "." (buildin_types | class_members_list | variable_name) //a.b
+!class_members_list: "<" variable_name ("," variable_name)* ">" // <q,w,e,r>
+
+!variable_list:  "{" rvalue ("," rvalue)* "}"  // {3, 5}
+!variable_tuple: ("(" | "<") variable_tuple_value ("," variable_tuple_value)* (")" | ">")  // (-, a)
+!variable_tuple_value: (rvalue | "-")
+!variable_array_proto: ARRAY ARRAY_SIZE_STRING OF variable // array [0..3] of bits(VL) results
+!variable_miltiple_proto: [constant_typization][bits_typization][var_typization] variable_name ("," variable_name)+ // interger a,b,c;  
+!variable_proto: [constant_typization][bits_typization][var_typization] variable_name // constant interger var
+!variable_name: NAME
+
+//variable prefix
+!var_typization: "integer" | "boolean" | "bit" | buildin_types 
+                
+!constant_typization: "constant"
+!bits_typization: "bits" "(" rvalue ")"
+//variable postfix
+!concat_variable: rvalue (":" rvalue)+
+!offset_data: "<" rvalue [":" rvalue] ">" //<12> <11:6>
+!slice_data:  "[" rvalue? "]" // [] [x]
+!slice_sized_data: "[" rvalue ("," rvalue)+ "]" // [x, y]
+
+// expressions a + b | a * c etc..
+?expression: "(" expression ")" 
+        | or_test
+        | check_in_list
+
+?check_in_list: or_test "IN" variable_list
+?or_test: and_test (_logic_compare_or_op and_test)*
+?and_test: compare_test (_logic_compare_and_op compare_test)*
+?compare_test: or_expr (_compare_op or_expr)*
+?or_expr: xor_expr (_logic_or_op xor_expr)*
+?xor_expr: and_expr (_logic_xor_op and_expr)*
+?and_expr: shift_expr (_logic_and_op shift_expr)*
+?shift_expr: arith_expr (_shift_op arith_expr)*
+?arith_expr: coeff_expr (_arith_op coeff_expr)*
+?coeff_expr: unary_expr (_coeff_op unary_expr)*
+?unary_expr:_unary_op unary_expr | power_expr
+?power_expr: value_expr (_power_op unary_expr)*
+?value_expr: rvalue
+
+!_not_op: "!"
+!_unary_op: "+"|"-"| ("~" | "NOT") | _not_op
+!_arith_op: "+"|"-"
+!_logic_xor_op: "EOR" // EOR is XOR
+!_logic_or_op: "|"|"OR"
+!_logic_and_op: "&"|"AND"
+!_shift_op: "<<"|">>"
+!_multiply_op: "*"
+!_power_op: "^"
+!_coeff_op: "*"|"DIV"|"/"|"REM"|"MOD"|"%" 
+!_logic_compare_or_op: "||"
+!_logic_compare_and_op: "&&"
+!_compare_op: "<"|">"|"=="|">="|"<="|"!="
+
+!bits_string: BITS_MASK_STRING
+        | BITS_CLEAN_STRING
+        | BITS_LIST_STRING
+
+number: DEC_NUMBER | HEX_NUMBER | BIN_NUMBER | OCT_NUMBER | FLOAT_NUMBER | IMAG_NUMBER
+string: STRING
+
+// builtin
+!buildin_types: "AccessDescriptor"|"PSTATE"|"PSTATEField"|"EDSCR"|"GCR_EL1"|"PSTATE"|"SRType"|"VBitOps"|"VCGEType"|"VCGTtype"|"VFPNegMul"|"OpType"|"TimeStamp"|"TCFType"|"MemBarrierOp"|"CompareOp"|"CountOp"|"ExtendType"|"FPConvOp"|"FPMaxMinOp"|"FPUnaryOp"|"GCSInstType"|"ImmediateOp"|"LogicalOp"|"MOPSStage"|"MoveWideOp"|"PSTATEField"|"ReduceOp"|"ShiftType"|"SMEExceptionType"|"Cmp"|"SystemHintOp"|"Sys"|"TLBILevel"|"TLBI"|"TLBIOp"|"TLBIPOp"|"TMFailure"|"VBitOp"|"Component"|"CrossTriggerOut"|"CrossTriggerIn"|"Exception"|"Signal"|"FPExc"|"FPRounding"|"FPType"|"InterruptID"|"AccessType"|"DeviceType"|"ErrorState"|"Fault"|"GPCF"|"MemAtomicOp"|"CacheOp"|"CacheOpScope"|"CacheType"|"CPAS"|"MemOp"|"MemType"|"MemTag"|"PAS"|"Shareability"|"VARange"|"RestrictType"|"BranchType"|"DSBAlias"|"AArch32"|"AArch64"|"DebugState"|"InstrSet"|"PL3"|"PL2"|"PL1"|"PL0"|"SS"|"WFxType"|"Constraint"|"Unpredictable"|"TranslationStage"|"ATAccess"|"PGS"|"DescriptorType"|"Regime"|"SDFType"|"TGx"
+!builtin_statement: "UNDEFINED"|"UNPREDICTABLE"|"NOT_PERMITTED"|"NOP"
+
+//KeyWord
+IF: "if"
+THEN: "then"
+ELSE: "else"
+ELSIF: "elsif"
+FOR: "for"
+TO: "to"
+DOWNTO: "downto"
+CASE: "case"
+OF: "of"
+WHEN: "when"
+OTHERWISE: "otherwise"
+WHILE: "while"
+DO: "do"
+ASSERT: "assert"
+SEE: "SEE"
+ARRAY: "array"
+
+// Other terminals
+NAME:  /(?!SEE\b|DIV\b|REM\b|MOD\b|array\b|assert\b|bits\b|if\b|else\b|elsif\b|case\b|of\b|when\b|otherwise\b|for\b|to\b|downto\b)[^\W\d]\w*/
+COMMENT: /\/\/[^\n]*/
+
+STRING: /"(.*?)"/i
+
+BITS_CLEAN_STRING: /'[01]+'/    // '010'
+BITS_MASK_STRING:  /'[01x]+'/   // '0x0'
+BITS_LIST_STRING:  /'[01x\s]+'/ // 'x0x0 111'
+ARRAY_SIZE_STRING: /\[[0-9]+\.\.[0-9]+\]/
+
+_SPECIAL_DEC: "0".."9"        ("_"?  "0".."9"                       )*
+DEC_NUMBER:   "1".."9"        ("_"?  "0".."9"                       )*
+          |   "0"             ("_"?  "0"                            )* /(?![1-9])/
+HEX_NUMBER.2: "0" ("x" | "X") ("_"? ("0".."9" | "a".."f" | "A".."F"))+
+OCT_NUMBER.2: "0" ("o" | "O") ("_"?  "0".."7"                       )+
+BIN_NUMBER.2: "0" ("b" | "B") ("_"?  "0".."1"                       )+
+
+_EXP: ("e"|"E") ["+" | "-"] _SPECIAL_DEC
+DECIMAL: "." _SPECIAL_DEC | _SPECIAL_DEC "." _SPECIAL_DEC?
+FLOAT_NUMBER.2: _SPECIAL_DEC _EXP | DECIMAL _EXP?
+IMAG_NUMBER.2: (_SPECIAL_DEC      | FLOAT_NUMBER) ("J" | "j")
+
+_NEWLINE: (/(\r?\n[\t ]*)+/ | COMMENT)+
+
+%ignore COMMENT
+%import common.WS_INLINE
+%declare _INDENT _DEDENT
+%ignore WS_INLINE

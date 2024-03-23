@@ -1,0 +1,16 @@
+{
+	"tasks": [
+		{
+			"type": "avr32",
+			"pdfpath": "pdf\\avr\\32bit_doc32000.pdf",
+			"outpath": "avr\\32bit\\",
+			"docname": "avr32"
+		},
+		{
+			"type": "avr8",
+			"pdfpath": "pdf\\avr\\8bit_AVR-InstructionSet-Manual-DS40002198.pdf",
+			"outpath": "avr\\8bit\\",
+			"docname": "avr8"
+		}
+	]
+}

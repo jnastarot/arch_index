@@ -1,0 +1,64 @@
+{
+	"tasks": [
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00375-2B-MIPS64DSP-AFP-03.02.pdf",
+			"outpath": "mips\\ase_dsp\\",
+			"docname": "mips\\ASE-DSP"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00868-1D-MSA64-AFP-01.12.pdf",
+			"outpath": "mips\\ase_msa\\",
+			"docname": "mips\\ASE-MSA"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00099-2B-MIPS3D64-AFP-02.61.pdf",
+			"outpath": "mips\\ase_3d\\",
+			"docname": "mips\\ASE-3D"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00378-2B-MIPS32MT-AFP-01.12.pdf",
+			"outpath": "mips\\ase_mt\\",
+			"docname": "mips\\ASE-MT"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00101-2B-SMARTMIPS32-AFP-03.00.pdf",
+			"outpath": "mips\\ase_smart\\",
+			"docname": "mips\\ASE-SMART"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00847-2B-VZMIPS64-AFP-01.06.pdf",
+			"outpath": "mips\\ase_vz\\",
+			"docname": "mips\\ASE-VZ"
+		},		
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00834-2B-MUCON-AFP-01.03.pdf",
+			"outpath": "mips\\ase_mcu\\",
+			"docname": "mips\\ASE-MCU"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00076-2B-MIPS1632-AFP-02.63.pdf",
+			"outpath": "mips\\ase_16\\",
+			"docname": "mips\\ASE-16"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD01172-2B-MIPS16e2-AFP-01.00.pdf",
+			"outpath": "mips\\ase_16e2\\",
+			"docname": "mips\\ASE-16e2"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\mips\\_MD00087-2B-MIPS64BIS-AFP-6.06.pdf",
+			"outpath": "mips\\mips_6_6\\",
+			"docname": "mips\\main"
+		}
+	]
+}

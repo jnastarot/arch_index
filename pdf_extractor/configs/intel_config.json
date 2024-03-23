@@ -1,0 +1,10 @@
+{
+	"tasks": [
+		{
+			"type": "intel",
+			"pdfpath": "pdf\\intel\\_325383-sdm-vol-2abcd.pdf",
+			"outpath": "intel\\main\\",
+			"docname": "intel\\main"
+		}
+	]
+}

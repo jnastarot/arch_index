@@ -1,0 +1,34 @@
+{
+	"tasks": [
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\micromips\\_MD00765-2B-microMIPS64DSP-AFP-03.02.pdf",
+			"outpath": "micromips\\ase_dsp\\",
+			"docname": "micromips\\ASE-DSP"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\micromips\\_MD00768-1C-microMIPS32MT-AFP-01.12.pdf",
+			"outpath": "micromips\\ase_mt\\",
+			"docname": "micromips\\ASE-MT"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\micromips\\_MD00849-2B-VZmicroMIPS64-AFP-01.06.pdf",
+			"outpath": "micromips\\ase_vz\\",
+			"docname": "micromips\\ASE-VZ"
+		},		
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\micromips\\_MD00838-2B-microMIPS32MUCON-AFP-01.03.pdf",
+			"outpath": "micromips\\ase_mcu\\",
+			"docname": "micromips\\ASE-MCU"
+		},
+		{
+			"type": "mips",
+			"pdfpath": "pdf\\mips\\micromips\\_MD00594-2B-microMIPS64-AFP-6.05.pdf",
+			"outpath": "micromips\\micromips_6_6\\",
+			"docname": "micromips\\main"
+		}
+	]
+}
